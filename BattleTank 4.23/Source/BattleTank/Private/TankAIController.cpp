@@ -2,11 +2,8 @@
 
 
 #include "TankAIController.h"
+#include "..\Public\TankAIController.h"
 
-ATank* ATankAIController::GetControlledTank() const
-{
-	return Cast<ATank>(GetPawn());
-}
 
 void ATankAIController::BeginPlay()
 {
@@ -22,4 +19,26 @@ void ATankAIController::BeginPlay()
 	{
 		UE_LOG(LogTemp, Warning, TEXT("AI posses: %s"), *ControlledTank->GetName());
 	}
+
+	auto PlayerTank = GetPlayerTank();
+
+	if (!PlayerTank)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("AI don't aim at player"));
+	}
+	else
+	{
+		UE_LOG(LogTemp, Warning, TEXT("AI aimed at %s"), *PlayerTank->GetName());
+	}
 }
+
+ATank* ATankAIController::GetControlledTank() const
+{
+	return Cast<ATank>(GetPawn());
+}
+
+ATank* ATankAIController::GetPlayerTank() const
+{
+	return Cast<ATank>(GetWorld()->GetFirstPlayerController()->GetPawn());
+}
+

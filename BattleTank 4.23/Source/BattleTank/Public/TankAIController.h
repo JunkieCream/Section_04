@@ -5,6 +5,7 @@
 #include "Tank.h"
 #include "CoreMinimal.h"
 #include "AIController.h"
+#include "TankPlayerController.h"
 #include "TankAIController.generated.h"
 
 /**
@@ -19,4 +20,6 @@ public:
 	ATank* GetControlledTank() const;
 
 	void BeginPlay() override;
+
+	ATank* GetPlayerTank() const;
 };
