@@ -7,6 +7,11 @@ ATank* ATankPlayerController::GetControlledTank() const
 	return Cast<ATank>(GetPawn());
 }
 
+void ATankPlayerController::AimTowardCrosshair()
+{
+	if (!GetControlledTank()) { return; }
+}
+
 void ATankPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
@@ -22,3 +27,10 @@ void ATankPlayerController::BeginPlay()
 		UE_LOG(LogTemp, Warning, TEXT("You posses: %s"), *ControlledTank->GetName());
 	}
 }
+
+void ATankPlayerController::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
+	AimTowardCrosshair();
+}
+
