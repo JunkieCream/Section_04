@@ -13,12 +13,18 @@ void ATankPlayerController::AimTowardCrosshair()
 
 	FVector HitLocation; // Out Parameter
 	GetSightHitLocation(HitLocation);
-	UE_LOG(LogTemp, Warning, TEXT("Hitlocation: %s"), *HitLocation.ToString());
+	//UE_LOG(LogTemp, Warning, TEXT("Look Direction: %s"), *HitLocation.ToString());
 }
 
 bool ATankPlayerController::GetSightHitLocation(FVector& out_HitLocation)
 {
-	FHitResult OutHit;
+	//Find crosshair position in pixel coordinates
+	int32 ViewportSizeX, ViewportSizeY;
+	GetViewportSize(ViewportSizeX, ViewportSizeY);
+	auto ScreenLocation = FVector2D(ViewportSizeX*CrosshairXLocation, ViewportSizeY* CrosshairYLocation);
+	UE_LOG(LogTemp, Warning, TEXT("Look Direction: %s"), *ScreenLocation.ToString());
+
+	/*FHitResult OutHit;
 	FCollisionQueryParams CollisionParams;
 
 	FVector PlayerViewLocation;
@@ -29,8 +35,7 @@ bool ATankPlayerController::GetSightHitLocation(FVector& out_HitLocation)
 	);
 
 	out_HitLocation = PlayerViewLocation + PlayerViewRotation.Vector()*1000.f;
-	DrawDebugLine(GetWorld(), PlayerViewLocation, out_HitLocation, FColor::Green, false, 1, 0, 1);
-
+	
 	if (GetWorld()->LineTraceSingleByChannel(OutHit, PlayerViewLocation, out_HitLocation, ECC_Visibility, CollisionParams))
 	{
 		return true;
@@ -38,9 +43,9 @@ bool ATankPlayerController::GetSightHitLocation(FVector& out_HitLocation)
 	else 
 	{ 
 		return false; 
-	}
+	}*/
 
-	return false;
+	return true;
 }
 
 void ATankPlayerController::BeginPlay()
