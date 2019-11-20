@@ -30,8 +30,6 @@ public:
 	// Aim barrel of tank to crosshair
 	void AimTowardCrosshair();
 
-	bool GetSightHitLocation(FVector &out_HitLocation);
-
 	bool GetLookVectorHitLocation(FVector& out_HitLocation, FVector PlayerCameraLocation, FVector PlayerTargetDirection);
 
 	bool GetLookDirection(FVector& out_PlayerCameraLocation, FVector& PlayerTargetDirection);
