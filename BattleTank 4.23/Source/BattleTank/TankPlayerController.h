@@ -32,9 +32,15 @@ public:
 
 	bool GetSightHitLocation(FVector &out_HitLocation);
 
+	bool GetLookVectorHitLocation(FVector& out_HitLocation, FVector PlayerCameraLocation, FVector PlayerTargetDirection);
+
+	bool GetLookDirection(FVector& out_PlayerCameraLocation, FVector& PlayerTargetDirection);
+
 private:
 	UPROPERTY(EditAnywhere)
 	float CrosshairXLocation = 0.5;
 	UPROPERTY(EditAnywhere)
-	float CrosshairYLocation = 0.333333;
+	float CrosshairYLocation = 0.33333;
+	UPROPERTY(EditAnywhere)
+	float LineTraceRange = 1000000.f;
 };
