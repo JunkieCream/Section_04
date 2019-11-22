@@ -4,6 +4,7 @@
 #include "TankAimingComponent.h"
 #include "..\Public\TankAimingComponent.h"
 
+
 // Sets default values for this component's properties
 UTankAimingComponent::UTankAimingComponent()
 {
@@ -36,8 +37,16 @@ void UTankAimingComponent::TickComponent(float DeltaTime, ELevelTick TickType, F
 	// ...
 }
 
-void UTankAimingComponent::Aiming(FString TankName, FVector HitLocation)
+void UTankAimingComponent::Aiming(FVector HitLocation, float LaunchSpeed)
 {
-	auto BarrelLocation = Barrel->GetComponentLocation().ToString();
-	UE_LOG(LogTemp, Warning, TEXT("%s aiming at %s from %s"), *TankName, *HitLocation.ToString(), *BarrelLocation);
+	if (!Barrel) {return;}
+	FVector LaunchVelocity;
+	FVector StartLocation = Barrel->GetSocketLocation(FName ("Projectile"));
+
+	if (UGameplayStatics::SuggestProjectileVelocity(this, LaunchVelocity, StartLocation, HitLocation, LaunchSpeed, false, 0.f, 0, ESuggestProjVelocityTraceOption::DoNotTrace))
+	{
+		//Calculate launch velocity
+		auto AimDirection = LaunchVelocity.GetSafeNormal();
+		UE_LOG(LogTemp, Warning, TEXT("%s aiming at: %s"), *GetOwner()->GetName(), *AimDirection.ToString());
+	}
 }

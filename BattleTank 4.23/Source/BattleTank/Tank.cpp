@@ -40,7 +40,7 @@ void ATank::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 
 void ATank::AimAt(FVector HitLocation)
 {
-	auto TankName = GetName();
-	TankAiming->Aiming(TankName, HitLocation);
+	//auto TankName = GetName();
+	TankAiming->Aiming(HitLocation, LaunchSpeed);
 }
 

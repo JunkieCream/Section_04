@@ -2,6 +2,8 @@
 
 #pragma once
 
+#include "Kismet/GameplayStatics.h"
+//#include <Runtime\Engine\Private\GameplayStatics.cpp>
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
 #include "TankAimingComponent.generated.h"
@@ -23,7 +25,7 @@ public:
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
 	//Called from Tank itself
-	void Aiming(FString TankName, FVector HitLocation);
+	void Aiming(FVector HitLocation, float LaunchSpeed);
 
 protected:
 	// Called when the game starts
