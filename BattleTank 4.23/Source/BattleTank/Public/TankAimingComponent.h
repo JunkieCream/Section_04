@@ -3,11 +3,11 @@
 #pragma once
 
 #include "Kismet/GameplayStatics.h"
-//#include <Runtime\Engine\Private\GameplayStatics.cpp>
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
 #include "TankAimingComponent.generated.h"
 
+class UTankBarrel; //Forward declacration
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class BATTLETANK_API UTankAimingComponent : public UActorComponent
@@ -19,19 +19,16 @@ public:
 	UTankAimingComponent();
 
 	//Finding tank's barrel
-	void SetBarrelReference(UStaticMeshComponent* BarrelToSet);
-
-	// Called every frame
-	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
+	void SetBarrelReference(UTankBarrel* BarrelToSet);
 
 	//Called from Tank itself
 	void Aiming(FVector HitLocation, float LaunchSpeed);
 
+	//Rotate barrel on axises
+	void MoveBarrel(FVector AimDirection);
+
 protected:
-	// Called when the game starts
-	virtual void BeginPlay() override;
 
 private:	
-	UStaticMeshComponent* Barrel = nullptr;
-
+	UTankBarrel* Barrel = nullptr;
 };
