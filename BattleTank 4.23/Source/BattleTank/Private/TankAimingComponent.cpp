@@ -3,6 +3,7 @@
 
 #include "TankAimingComponent.h"
 #include "TankBarrel.h"
+#include "TankTurret.h"
 #include "..\Public\TankAimingComponent.h"
 
 
@@ -21,17 +22,23 @@ void UTankAimingComponent::SetBarrelReference(UTankBarrel* BarrelToSet)
 	Barrel = BarrelToSet;
 }
 
+void UTankAimingComponent::SetTurretReference(UTankTurret* TurretToSet)
+{
+	Turret = TurretToSet;
+}
+
 void UTankAimingComponent::Aiming(FVector HitLocation, float LaunchSpeed)
 {
 	if (!Barrel) {return;}
 	FVector LaunchVelocity;
 	FVector StartLocation = Barrel->GetSocketLocation(FName ("Projectile"));
+	//FVector StartLocation = Turret->GetSocketLocation(FName("Barrel"));
 
 	if (UGameplayStatics::SuggestProjectileVelocity(this, LaunchVelocity, StartLocation, HitLocation, LaunchSpeed, false, 0.f, 0.f, ESuggestProjVelocityTraceOption::DoNotTrace))
 	{
 		//Calculate launch velocity
 		auto AimDirection = LaunchVelocity.GetSafeNormal();
-		MoveBarrel(AimDirection);
+		MoveTurret(AimDirection);
 		auto Time = GetWorld()->GetTimeSeconds();
 		UE_LOG(LogTemp, Warning, TEXT("%f: Aim solution"), Time);
 	}
@@ -43,12 +50,13 @@ void UTankAimingComponent::Aiming(FVector HitLocation, float LaunchSpeed)
 }
 
 //Receive aim direction and rotate barrel with FRotator to that direction
-void UTankAimingComponent::MoveBarrel(FVector AimDirection)
+void UTankAimingComponent::MoveTurret(FVector AimDirection)
 {
 	//Difference between current barrel rotation and AimDirection
 	auto BarrelRotator = Barrel->GetForwardVector().Rotation();
 	auto AimAsRotator = AimDirection.Rotation();
 	auto DeltaRotator = AimAsRotator - BarrelRotator;
 	
-	Barrel->Elevate(DeltaRotator.Pitch); //TODO Remove magic number
+	Barrel->Elevate(DeltaRotator.Pitch); 
+	Turret->TurretRotate(DeltaRotator.Yaw);
 }
