@@ -38,7 +38,7 @@ void UTankAimingComponent::Aiming(FVector HitLocation, float LaunchSpeed)
 	{
 		//Calculate launch velocity
 		auto AimDirection = LaunchVelocity.GetSafeNormal();
-		MoveTurret(AimDirection);
+		MoveTurret(LaunchVelocity);
 		auto Time = GetWorld()->GetTimeSeconds();
 		UE_LOG(LogTemp, Warning, TEXT("%f: Aim solution"), Time);
 	}
