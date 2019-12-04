@@ -6,8 +6,10 @@
 #include "GameFramework/Pawn.h"
 #include "Tank.generated.h"
 
+//Forward declacration
 class UTankAimingComponent;
-class UTankBarrel; //Forward declacration
+class UTankBarrel; 
+class AProjectile;
 
 UCLASS()
 class BATTLETANK_API ATank : public APawn
@@ -44,4 +46,9 @@ private:
 	UPROPERTY(EditAnywhere, Category = Firing)
 	float LaunchSpeed = 10000.f; //Sensible Starting Value
 
+	UPROPERTY(EditAnywhere, Category = Setup)
+	TSubclassOf<AProjectile> ProjectileBlueprint;
+
+	//Local barrel refference for spawning projectile
+	UTankBarrel* Barrel;
 };
