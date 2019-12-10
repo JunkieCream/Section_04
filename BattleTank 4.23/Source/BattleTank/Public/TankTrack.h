@@ -19,6 +19,7 @@ public:
 	void SetThrottle(float Throttle);
 
 private:
+	// Max force per track in newtons
 	UPROPERTY(EditDefaultsOnly, Category = Setup)
-	float MaxTraction = 25.f; //Sensible Deafault
+	float MaxDrivingForce = 700000.f; //Sensible Deafault
 };
