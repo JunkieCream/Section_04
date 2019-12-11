@@ -13,7 +13,6 @@ ATank::ATank()
 	PrimaryActorTick.bCanEverTick = false;
 
 	TankAiming = CreateDefaultSubobject<UTankAimingComponent>(FName("Aiming Component"));
-	TankMovement = CreateDefaultSubobject<UTankMovementComponent>(FName("Movement Component"));
 }
 
 void ATank::SetBarrelReference(UTankBarrel* BarrelToSet)
