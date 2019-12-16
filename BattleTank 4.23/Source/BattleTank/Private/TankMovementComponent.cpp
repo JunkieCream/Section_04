@@ -34,11 +34,14 @@ void UTankMovementComponent::RequestDirectMove(const FVector& MoveVelocity, bool
 	float Scale = 1/sqrt(SquareSum);
 	AIForwardIntention = FVector(AIForwardIntention.X * Scale, AIForwardIntention.Y * Scale, AIForwardIntention.Z * Scale);
 
-	float AIThrow = FVector::DotProduct(TankForward, AIForwardIntention);
+	float AIForwardThrow = FVector::DotProduct(TankForward, AIForwardIntention);
+	float AITurnThrow = FVector::CrossProduct(TankForward, AIForwardIntention).Z;
 	
-	IntendMoveForward(AIThrow);
+	
+	IntendTurn(AITurnThrow);
+	IntendMoveForward(AIForwardThrow);
 
 	auto Name = GetOwner()->GetName();
-	UE_LOG(LogTemp, Warning, TEXT("Tank %s at velocity %f and scale is %f"), *Name, AIThrow, Scale);
+	UE_LOG(LogTemp, Warning, TEXT("Tank %s at velocity %f and scale is %f"), *Name, AIForwardThrow, Scale);
 	UE_LOG(LogTemp, Warning, TEXT("TankForward is %s and AIForwardIntention is %s"), *TankForward.ToString(), *AIForwardIntention.ToString());
 }
