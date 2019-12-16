@@ -1,6 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "TankTrack.h"
+#include "math.h"
 #include "TankMovementComponent.h"
 
 void UTankMovementComponent::Initialise(UTankTrack* LeftTrackToSet, UTankTrack* RightTrackToSet)
@@ -25,6 +26,19 @@ void UTankMovementComponent::IntendTurn(float Throw)
 
 void UTankMovementComponent::RequestDirectMove(const FVector& MoveVelocity, bool bForceMaxSpeed)
 {
+	auto TankForward = GetOwner()->GetActorForwardVector();
+	auto AIForwardIntention = MoveVelocity;
+
+	//TODO Change to GetSafeNormal when it starts to work
+	auto SquareSum = (AIForwardIntention.X * AIForwardIntention.X) + (AIForwardIntention.Y * AIForwardIntention.Y) + (AIForwardIntention.Z * AIForwardIntention.Z);
+	float Scale = 1/sqrt(SquareSum);
+	AIForwardIntention = FVector(AIForwardIntention.X * Scale, AIForwardIntention.Y * Scale, AIForwardIntention.Z * Scale);
+
+	float AIThrow = FVector::DotProduct(TankForward, AIForwardIntention);
+	
+	IntendMoveForward(AIThrow);
+
 	auto Name = GetOwner()->GetName();
-	UE_LOG(LogTemp, Warning, TEXT("Tank %s at velocity %s"), *Name, *MoveVelocity.ToString());
+	UE_LOG(LogTemp, Warning, TEXT("Tank %s at velocity %f and scale is %f"), *Name, AIThrow, Scale);
+	UE_LOG(LogTemp, Warning, TEXT("TankForward is %s and AIForwardIntention is %s"), *TankForward.ToString(), *AIForwardIntention.ToString());
 }
