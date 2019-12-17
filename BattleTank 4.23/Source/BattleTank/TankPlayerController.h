@@ -15,14 +15,15 @@ class BATTLETANK_API ATankPlayerController : public APlayerController
 {
 	GENERATED_BODY()
 
-public:
+protected:
+	UFUNCTION(BlueprintCallable, Category = Setup)
+		ATank* GetControlledTank() const;
+private:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
 	// Called when the game starts or when spawned
 	void BeginPlay() override;
-	
-	ATank* GetControlledTank() const;
 
 	// Aim barrel of tank to crosshair
 	void AimTowardCrosshair();
@@ -31,7 +32,6 @@ public:
 
 	bool GetLookDirection(FVector& out_PlayerCameraLocation, FVector& PlayerTargetDirection);
 
-private:
 	UPROPERTY(EditAnywhere)
 	float CrosshairXLocation = 0.5;
 	UPROPERTY(EditAnywhere)

@@ -47,8 +47,6 @@ bool ATankPlayerController::GetLookVectorHitLocation(FVector &out_HitLocation, F
 	//Line tracing end
 	out_HitLocation = PlayerCameraLocation + PlayerTargetDirection * LineTraceRange;
 
-	//DrawDebugLine(GetWorld(), PlayerCameraLocation, out_HitLocation, FColor(255, 0, 0), false, 0.f, 0.f, 10.f);
-
 	//Check if line hit anything
 	if (GetWorld()->LineTraceSingleByChannel(OutHit, PlayerCameraLocation, out_HitLocation, ECC_Visibility))
 	{
