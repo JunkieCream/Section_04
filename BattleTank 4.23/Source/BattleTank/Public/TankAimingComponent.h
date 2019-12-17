@@ -7,8 +7,17 @@
 #include "Components/ActorComponent.h"
 #include "TankAimingComponent.generated.h"
 
-class UTankBarrel; //Forward declacration
-class UTankTurret; //Forward declacration
+UENUM()
+enum class EFiringState :uint8
+{
+	Reloading,
+	Aiming,
+	Locked
+};
+
+//Forward declacration
+class UTankBarrel; 
+class UTankTurret; 
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class BATTLETANK_API UTankAimingComponent : public UActorComponent
@@ -32,6 +41,8 @@ public:
 	void MoveTurret(FVector AimDirection);
 
 protected:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Enum)	
+	EFiringState FiringState = EFiringState::Reloading;
 
 private:	
 	UTankBarrel* Barrel = nullptr;
