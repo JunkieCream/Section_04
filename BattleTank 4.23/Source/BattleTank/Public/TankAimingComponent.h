@@ -25,14 +25,11 @@ class BATTLETANK_API UTankAimingComponent : public UActorComponent
 	GENERATED_BODY()
 
 public:	
+	UFUNCTION(BlueprintCallable, Category = Setup)
+	void Initialise(UTankBarrel* BarrelToSet, UTankTurret* TurretToSet);
+
 	// Sets default values for this component's properties
 	UTankAimingComponent();
-
-	//Finding tank's barrel
-	void SetBarrelReference(UTankBarrel* BarrelToSet);
-
-	//Finding tank's turret
-	void SetTurretReference(UTankTurret* TurretToSet);
 
 	//Called from Tank itself
 	void Aiming(FVector HitLocation, float LaunchSpeed);

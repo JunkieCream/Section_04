@@ -21,20 +21,10 @@ public:
 	// Called to determine hit location
 	void AimAt(FVector HitLocation);
 
-	//Finding tank's barrel
-	UFUNCTION(BlueprintCallable, Category = Setup)
-	void SetBarrelReference(UTankBarrel* BarrelToSet);
-
-	UFUNCTION(BlueprintCallable, Category = Setup)
-	void SetTurretReference(UTankTurret* TurretToSet);
-
 	UFUNCTION(BlueprintCallable)
 	void Fire();
 
 protected:
-	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;
-
 	UPROPERTY(BlueprintReadOnly)
 	UTankAimingComponent* TankAiming = nullptr;
 
@@ -44,9 +34,6 @@ protected:
 private:
 	// Sets default values for this pawn's properties
 	ATank();
-
-	// Called to bind functionality to input
-	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 	UPROPERTY(EditDefaultsOnly, Category = Setup)
 	TSubclassOf<AProjectile> ProjectileBlueprint;

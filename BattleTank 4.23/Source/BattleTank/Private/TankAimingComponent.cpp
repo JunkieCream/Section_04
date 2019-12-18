@@ -17,13 +17,10 @@ UTankAimingComponent::UTankAimingComponent()
 	// ...
 }
 
-void UTankAimingComponent::SetBarrelReference(UTankBarrel* BarrelToSet)
+void UTankAimingComponent::Initialise(UTankBarrel* BarrelToSet, UTankTurret* TurretToSet)
 {
+	if (!BarrelToSet || !TurretToSet) { return; }
 	Barrel = BarrelToSet;
-}
-
-void UTankAimingComponent::SetTurretReference(UTankTurret* TurretToSet)
-{
 	Turret = TurretToSet;
 }
 
@@ -32,7 +29,6 @@ void UTankAimingComponent::Aiming(FVector HitLocation, float LaunchSpeed)
 	if (!Barrel) {return;}
 	FVector LaunchVelocity;
 	FVector StartLocation = Barrel->GetSocketLocation(FName ("Projectile"));
-	//FVector StartLocation = Turret->GetSocketLocation(FName("Barrel"));
 
 	if (UGameplayStatics::SuggestProjectileVelocity(this, LaunchVelocity, StartLocation, HitLocation, LaunchSpeed, false, 0.f, 0.f, ESuggestProjVelocityTraceOption::DoNotTrace))
 	{
