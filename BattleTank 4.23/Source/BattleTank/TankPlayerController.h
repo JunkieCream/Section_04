@@ -9,6 +9,7 @@
 #include "TankPlayerController.generated.h"
 
 class ATank;
+class UTankAimingComponent;
 
 UCLASS()
 class BATTLETANK_API ATankPlayerController : public APlayerController
@@ -19,8 +20,8 @@ protected:
 	UFUNCTION(BlueprintCallable, Category = "Setup")
 	ATank* GetControlledTank() const;
 	//BlueprintImplementableEvent
-	UFUNCTION(BlueprintCallable, Category = "Setup")
-	void FoundAimingComponent(UTankAimingComponent* AimCompRef) const;
+	UFUNCTION(BlueprintCallable, BlueprintImplementableEvent, Category = "Setup")
+	void FoundAimingComponent(UTankAimingComponent* AimCompRef);
 
 private:
 	// Called every frame
@@ -42,4 +43,6 @@ private:
 	float CrosshairYLocation = 0.33333;
 	UPROPERTY(EditAnywhere)
 	float LineTraceRange = 1000000.f;
+
+	//UTankAimingComponent TankAiming;
 };

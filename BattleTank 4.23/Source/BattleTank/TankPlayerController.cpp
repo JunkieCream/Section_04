@@ -1,6 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "TankPlayerController.h"
+#include "TankAimingComponent.h"
 #include "Tank.h"
 
 ATank* ATankPlayerController::GetControlledTank() const
@@ -63,10 +64,16 @@ bool ATankPlayerController::GetLookVectorHitLocation(FVector &out_HitLocation, F
 void ATankPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
-}
-
-void ATankPlayerController::FoundAimingComponent(UTankAimingComponent* AimCompRef) const
-{
+	auto AimingComponent = GetControlledTank()->FindComponentByClass<UTankAimingComponent>();
+	if (AimingComponent)
+	{
+		FoundAimingComponent(AimingComponent);
+		UE_LOG(LogTemp, Warning, TEXT("DONKEY: Have tank aiming component"));
+	}
+	else
+	{
+		UE_LOG(LogTemp, Warning, TEXT("No tank aiming component"));
+	}
 }
 
 void ATankPlayerController::Tick(float DeltaTime)
