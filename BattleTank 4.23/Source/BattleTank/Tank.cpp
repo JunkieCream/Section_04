@@ -13,20 +13,20 @@ ATank::ATank()
 	PrimaryActorTick.bCanEverTick = false;
 	//TODO remove
 	//TankAiming = CreateDefaultSubobject<UTankAimingComponent>(FName("Aiming Component"));
+	auto TankName = GetName();
+	UE_LOG(LogTemp, Warning, TEXT("DONKEY: %s C++ was constructed"), *TankName);
+}
 
+void ATank::BeginPlay()
+{
+	Super::BeginPlay();
+	auto TankName = GetName();
+	UE_LOG(LogTemp, Warning, TEXT("DONKEY: %s C++ began play"), *TankName);
 }
 
 void ATank::AimAt(FVector HitLocation)
 {
-	if (!TankAiming) { 
-		UE_LOG(LogTemp, Warning, TEXT("TankAiming is nullptr"));
-		if (!TankMovement)
-		{
-			UE_LOG(LogTemp, Warning, TEXT("TankMovement is nullptr"));
-		}
-	return; 
-	}
-	//auto TankName = GetName();
+	if (!TankAiming) {return;}
 	TankAiming->Aiming(HitLocation, LaunchSpeed);
 }
 

@@ -65,6 +65,10 @@ void ATankPlayerController::BeginPlay()
 	Super::BeginPlay();
 }
 
+void ATankPlayerController::FoundAimingComponent(UTankAimingComponent* AimCompRef) const
+{
+}
+
 void ATankPlayerController::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
