@@ -44,5 +44,5 @@ private:
 	UPROPERTY(EditAnywhere)
 	float LineTraceRange = 1000000.f;
 
-	//UTankAimingComponent TankAiming;
+	UTankAimingComponent* TankAiming = nullptr;
 };

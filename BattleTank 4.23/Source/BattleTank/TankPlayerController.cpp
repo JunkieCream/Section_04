@@ -21,7 +21,9 @@ void ATankPlayerController::AimTowardCrosshair()
 
 	if (GetLookVectorHitLocation(HitLocation, PlayerCameraLocation, PlayerTargetDirection))
 	{
-		GetControlledTank()->AimAt(HitLocation);
+		//GetControlledTank()->AimAt(HitLocation);
+		//TankAiming = GetControlledTank()->FindComponentByClass<UTankAimingComponent>();
+		TankAiming->Aiming(HitLocation, 10000.f);
 	}
 }
 
@@ -64,10 +66,10 @@ bool ATankPlayerController::GetLookVectorHitLocation(FVector &out_HitLocation, F
 void ATankPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
-	auto AimingComponent = GetControlledTank()->FindComponentByClass<UTankAimingComponent>();
-	if (AimingComponent)
+	TankAiming = GetControlledTank()->FindComponentByClass<UTankAimingComponent>();
+	if (TankAiming)
 	{
-		FoundAimingComponent(AimingComponent);
+		FoundAimingComponent(TankAiming);
 		UE_LOG(LogTemp, Warning, TEXT("DONKEY: Have tank aiming component"));
 	}
 	else
