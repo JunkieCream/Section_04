@@ -8,7 +8,6 @@
 
 //Forward declacration
 class UTankAimingComponent;
-class UTankMovementComponent;
 class UTankBarrel; 
 class AProjectile;
 
@@ -27,9 +26,6 @@ public:
 protected:
 	UPROPERTY(BlueprintReadOnly)
 	UTankAimingComponent* TankAiming = nullptr;
-
-	UPROPERTY(BlueprintReadOnly)
-	UTankMovementComponent* TankMovement = nullptr;
 
 private:
 	// Sets default values for this pawn's properties
