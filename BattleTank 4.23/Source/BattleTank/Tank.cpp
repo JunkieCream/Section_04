@@ -26,13 +26,13 @@ void ATank::BeginPlay()
 
 void ATank::AimAt(FVector HitLocation)
 {
-	if (!TankAiming) {return;}
+	if (!ensure(TankAiming)) {return;}
 	TankAiming->Aiming(HitLocation, LaunchSpeed);
 }
 
 void ATank::Fire()
 {
-	if (!Barrel) { return; }
+	if (!ensure(Barrel)) { return; }
 
 	bool isReloaded = (FPlatformTime::Seconds() - LastFireTime) > ReloadTimeInSeconds;
 
