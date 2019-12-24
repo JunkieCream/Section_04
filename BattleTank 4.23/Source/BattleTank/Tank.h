@@ -17,8 +17,6 @@ class BATTLETANK_API ATank : public APawn
 	GENERATED_BODY()
 
 public:
-	// Called to determine hit location
-	void AimAt(FVector HitLocation);
 
 	UFUNCTION(BlueprintCallable)
 	void Fire();
@@ -38,7 +36,7 @@ private:
 	TSubclassOf<AProjectile> ProjectileBlueprint;
 
 	UPROPERTY(EditDefaultsOnly, Category = Firing)
-	float LaunchSpeed = 10000.f; //Sensible Starting Value
+	float LaunchSpeed = 10000.f; 
 
 	UPROPERTY(EditDefaultsOnly, Category = Firing)
 	float ReloadTimeInSeconds = 3;

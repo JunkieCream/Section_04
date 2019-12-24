@@ -15,12 +15,7 @@ ATank::ATank()
 void ATank::BeginPlay()
 {
 	Super::BeginPlay();
-}
-
-void ATank::AimAt(FVector HitLocation)
-{
-	if (!ensure(TankAiming)) {return;}
-	TankAiming->Aiming(HitLocation, LaunchSpeed);
+	Barrel = FindComponentByClass<UTankBarrel>();
 }
 
 void ATank::Fire()

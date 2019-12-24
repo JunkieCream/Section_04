@@ -36,7 +36,7 @@ void ATankPlayerController::AimTowardCrosshair()
 
 	if (GetLookVectorHitLocation(HitLocation, PlayerCameraLocation, PlayerTargetDirection))
 	{
-		TankAiming->Aiming(HitLocation, 10000.f);
+		TankAiming->Aiming(HitLocation);
 	}
 }
 
