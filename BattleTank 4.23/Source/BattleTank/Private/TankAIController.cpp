@@ -31,5 +31,3 @@ void ATankAIController::Tick(float DeltaTime)
 		TankAiming->Fire();
 	}
 }
-
-

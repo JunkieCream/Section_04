@@ -18,12 +18,7 @@ class BATTLETANK_API ATank : public APawn
 
 public:
 
-	UFUNCTION(BlueprintCallable)
-	void Fire();
-
 protected:
-	UPROPERTY(BlueprintReadOnly)
-	UTankAimingComponent* TankAiming = nullptr;
 
 private:
 	// Sets default values for this pawn's properties
@@ -31,18 +26,4 @@ private:
 
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
-
-	UPROPERTY(EditDefaultsOnly, Category = Setup)
-	TSubclassOf<AProjectile> ProjectileBlueprint;
-
-	UPROPERTY(EditDefaultsOnly, Category = Firing)
-	float LaunchSpeed = 10000.f; 
-
-	UPROPERTY(EditDefaultsOnly, Category = Firing)
-	float ReloadTimeInSeconds = 3;
-
-	double LastFireTime = 0;
-
-	//Local barrel refference for spawning projectile
-	UTankBarrel* Barrel;
 };
