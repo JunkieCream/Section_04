@@ -4,14 +4,29 @@
 #include "TankAimingComponent.h"
 #include "Tank.h"
 
-ATank* ATankPlayerController::GetControlledTank() const
+void ATankPlayerController::BeginPlay()
 {
-	return Cast<ATank>(GetPawn());
+	Super::BeginPlay();
+	TankAiming = Cast<ATank>(GetPawn())->FindComponentByClass<UTankAimingComponent>();
+	if (ensure(TankAiming))
+	{
+		FoundAimingComponent(TankAiming);
+	}
+	else
+	{
+		UE_LOG(LogTemp, Warning, TEXT("No tank aiming component"));
+	}
+}
+
+void ATankPlayerController::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
+	AimTowardCrosshair();
 }
 
 void ATankPlayerController::AimTowardCrosshair()
 {
-	if (!ensure(GetControlledTank())) { return; }
+	if (!ensure(TankAiming)) { return; }
 
 	FVector HitLocation; // Out Parameter
 	FVector PlayerTargetDirection; // Out Parameter
@@ -21,7 +36,6 @@ void ATankPlayerController::AimTowardCrosshair()
 
 	if (GetLookVectorHitLocation(HitLocation, PlayerCameraLocation, PlayerTargetDirection))
 	{
-		//GetControlledTank()->AimAt(HitLocation);
 		TankAiming->Aiming(HitLocation, 10000.f);
 	}
 }
@@ -35,7 +49,6 @@ bool ATankPlayerController::GetLookDirection(FVector &out_PlayerCameraLocation, 
 	auto ScreenLocation = FVector2D(ViewportSizeX * CrosshairXLocation, ViewportSizeY * CrosshairYLocation);
 
 	//Deprojecting crosshair to the world
-	//FVector PlayerCameraLocation;
 	DeprojectScreenPositionToWorld(ScreenLocation.X, ScreenLocation.Y, out_PlayerCameraLocation, out_PlayerTargetDirection);
 
 	return true;
@@ -62,24 +75,4 @@ bool ATankPlayerController::GetLookVectorHitLocation(FVector &out_HitLocation, F
 	return false;
 }
 
-void ATankPlayerController::BeginPlay()
-{
-	Super::BeginPlay();
-	TankAiming = GetControlledTank()->FindComponentByClass<UTankAimingComponent>();
-	if (ensure(TankAiming))
-	{
-		FoundAimingComponent(TankAiming);
-		UE_LOG(LogTemp, Warning, TEXT("DONKEY: Have tank aiming component"));
-	}
-	else
-	{
-		UE_LOG(LogTemp, Warning, TEXT("No tank aiming component"));
-	}
-}
-
-void ATankPlayerController::Tick(float DeltaTime)
-{
-	Super::Tick(DeltaTime);
-	AimTowardCrosshair();
-}
 

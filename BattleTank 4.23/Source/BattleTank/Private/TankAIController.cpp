@@ -4,11 +4,14 @@
 #include "TankAIController.h"
 #include "..\Public\TankAIController.h"
 #include "Tank.h"
+#include "TankAimingComponent.h"
 
 
 void ATankAIController::BeginPlay()
 {
 	Super::BeginPlay();
+	TankAiming = Cast<ATank>(GetPawn())->FindComponentByClass<UTankAimingComponent>();
+	if (ensure(!TankAiming)){ UE_LOG(LogTemp, Warning, TEXT("No tank aiming component"));}
 }
 
 void ATankAIController::Tick(float DeltaTime)
@@ -24,7 +27,7 @@ void ATankAIController::Tick(float DeltaTime)
 	// Aim towards the player
 	if (PlayerTank)
 	{
-		ControlledTank->AimAt(PlayerTank->GetActorLocation());
+		TankAiming->Aiming(PlayerTank->GetActorLocation(), 10000.f);
 		ControlledTank->Fire();
 	}
 }
