@@ -8,7 +8,6 @@
 #include "CollisionQueryParams.h"
 #include "TankPlayerController.generated.h"
 
-class ATank;
 class UTankAimingComponent;
 
 UCLASS()

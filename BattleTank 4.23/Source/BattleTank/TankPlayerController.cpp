@@ -8,14 +8,8 @@ void ATankPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
 	TankAiming = Cast<ATank>(GetPawn())->FindComponentByClass<UTankAimingComponent>();
-	if (ensure(TankAiming))
-	{
-		FoundAimingComponent(TankAiming);
-	}
-	else
-	{
-		UE_LOG(LogTemp, Warning, TEXT("No tank aiming component"));
-	}
+
+	if (ensure(TankAiming)){ FoundAimingComponent(TankAiming);}
 }
 
 void ATankPlayerController::Tick(float DeltaTime)
