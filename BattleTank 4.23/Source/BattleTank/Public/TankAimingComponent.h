@@ -7,6 +7,11 @@
 #include "Components/ActorComponent.h"
 #include "TankAimingComponent.generated.h"
 
+//Forward declacration
+class UTankBarrel;
+class UTankTurret;
+class AProjectile;
+
 UENUM()
 enum class EFiringState :uint8
 {
@@ -14,11 +19,6 @@ enum class EFiringState :uint8
 	Aiming,
 	Locked
 };
-
-//Forward declacration
-class UTankBarrel; 
-class UTankTurret;
-class AProjectile;
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class BATTLETANK_API UTankAimingComponent : public UActorComponent

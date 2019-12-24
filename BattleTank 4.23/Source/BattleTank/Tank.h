@@ -6,11 +6,6 @@
 #include "GameFramework/Pawn.h"
 #include "Tank.generated.h"
 
-//Forward declacration
-class UTankAimingComponent;
-class UTankBarrel; 
-class AProjectile;
-
 UCLASS()
 class BATTLETANK_API ATank : public APawn
 {
@@ -23,7 +18,4 @@ protected:
 private:
 	// Sets default values for this pawn's properties
 	ATank();
-
-	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;
 };

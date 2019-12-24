@@ -2,12 +2,11 @@
 
 #include "TankPlayerController.h"
 #include "TankAimingComponent.h"
-#include "Tank.h"
 
 void ATankPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
-	TankAiming = Cast<ATank>(GetPawn())->FindComponentByClass<UTankAimingComponent>();
+	TankAiming = GetPawn()->FindComponentByClass<UTankAimingComponent>();
 
 	if (ensure(TankAiming)){ FoundAimingComponent(TankAiming);}
 }
