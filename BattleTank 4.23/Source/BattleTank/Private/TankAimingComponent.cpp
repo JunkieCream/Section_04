@@ -6,7 +6,7 @@
 #include "TankTurret.h"
 #include "..\Public\TankAimingComponent.h"
 #include "Projectile.h"
-#include "math.h"
+
 
 
 // Sets default values for this component's properties
@@ -40,7 +40,7 @@ void UTankAimingComponent::Aiming(FVector HitLocation)
 		if (UGameplayStatics::SuggestProjectileVelocity(this, LaunchVelocity, StartLocation, HitLocation, LaunchSpeed, false, 0.f, 0.f, ESuggestProjVelocityTraceOption::DoNotTrace))
 		{
 			//Calculate launch velocity
-			AimDirection = LaunchVelocity.GetSafeNormal();
+			auto AimDirection = LaunchVelocity.GetSafeNormal();
 			MoveTurret(LaunchVelocity);
 		}
 		else
@@ -48,28 +48,10 @@ void UTankAimingComponent::Aiming(FVector HitLocation)
 			auto Time = GetWorld()->GetTimeSeconds();
 			UE_LOG(LogTemp, Warning, TEXT("%f: No aim solution"), Time);
 		}
-
-		if ((FPlatformTime::Seconds() - LastFireTime) > ReloadTimeInSeconds)
-		{
-			if (isTurretMoving(AimDirection, Barrel->GetForwardVector()))
-			{
-				FiringState = EFiringState::Aiming;
-			}
-			else
-			{
-				FiringState = EFiringState::Moving;
-			}
-			
-		}
-		else
-		{
-			FiringState = EFiringState::Reloading;
-		}
 	}
-	else
-	{
-		FiringState = EFiringState::Locked;
-	}	
+
+	CheckFiringState(LaunchVelocity, HitLocation);
+	
 }
 
 //Receive aim direction and rotate barrel with FRotator to that direction
@@ -102,13 +84,35 @@ void UTankAimingComponent::Fire()
 	}
 }
 
-bool UTankAimingComponent::isTurretMoving(FVector AimDirection, FVector CurrentLocation)
+void UTankAimingComponent::CheckFiringState(FVector AimDirection, FVector HitLocation)
 {
 	auto SquareSum = (AimDirection.X * AimDirection.X) + (AimDirection.Y * AimDirection.Y) + (AimDirection.Z * AimDirection.Z);
 	float Scale = 1 / sqrt(SquareSum);
 	AimDirection = FVector(AimDirection.X * Scale, AimDirection.Y * Scale, AimDirection.Z * Scale);
-
-	if (CurrentLocation.Equals(AimDirection, 0.01)) { return true; }
 	
-	return false;
+	if (HitLocation != FVector(0, 0, 0))
+	{
+		if ((FPlatformTime::Seconds() - LastFireTime) > ReloadTimeInSeconds)
+		{
+			if (Barrel->GetForwardVector().Equals(AimDirection, 0.01))
+			{
+				FiringState = EFiringState::Aiming;
+			}
+			else
+			{
+				FiringState = EFiringState::Moving;
+			}
+
+		}
+		else
+		{
+			FiringState = EFiringState::Reloading;
+		}
+	}
+	else
+	{
+		FiringState = EFiringState::Locked;
+	}
+	
+	return;
 }

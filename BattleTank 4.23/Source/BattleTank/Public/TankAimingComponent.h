@@ -2,6 +2,7 @@
 
 #pragma once
 
+#include "math.h"
 #include "Kismet/GameplayStatics.h"
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
@@ -48,7 +49,7 @@ protected:
 
 private:
 
-	bool isTurretMoving(FVector AimDirection, FVector CurrentLocation);
+	void CheckFiringState(FVector AimDirection, FVector HitLocation);
 
 	UTankBarrel* Barrel = nullptr;
 	UTankTurret* Turret = nullptr;
@@ -64,9 +65,5 @@ private:
 	float ReloadTimeInSeconds = 3;
 
 	double LastFireTime = 0;
-	
-	bool TurretMoving = false;
-
-	FVector AimDirection;
 
 };
