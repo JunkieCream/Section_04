@@ -6,6 +6,7 @@
 #include "TankTurret.h"
 #include "..\Public\TankAimingComponent.h"
 #include "Projectile.h"
+#include "math.h"
 
 
 // Sets default values for this component's properties
@@ -50,7 +51,15 @@ void UTankAimingComponent::Aiming(FVector HitLocation)
 
 		if ((FPlatformTime::Seconds() - LastFireTime) > ReloadTimeInSeconds)
 		{
-			FiringState = EFiringState::Aiming;
+			if (isTurretMoving(AimDirection, Barrel->GetForwardVector()))
+			{
+				FiringState = EFiringState::Aiming;
+			}
+			else
+			{
+				FiringState = EFiringState::Moving;
+			}
+			
 		}
 		else
 		{
@@ -91,4 +100,15 @@ void UTankAimingComponent::Fire()
 
 		LastFireTime = FPlatformTime::Seconds();
 	}
+}
+
+bool UTankAimingComponent::isTurretMoving(FVector AimDirection, FVector CurrentLocation)
+{
+	auto SquareSum = (AimDirection.X * AimDirection.X) + (AimDirection.Y * AimDirection.Y) + (AimDirection.Z * AimDirection.Z);
+	float Scale = 1 / sqrt(SquareSum);
+	AimDirection = FVector(AimDirection.X * Scale, AimDirection.Y * Scale, AimDirection.Z * Scale);
+
+	if (CurrentLocation.Equals(AimDirection, 0.01)) { return true; }
+	
+	return false;
 }

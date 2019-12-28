@@ -18,6 +18,7 @@ enum class EFiringState :uint8
 	Reloading,
 	Aiming,
 	Locked,
+	Moving
 };
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
@@ -47,7 +48,7 @@ protected:
 
 private:
 
-	bool isTurretMoving;
+	bool isTurretMoving(FVector AimDirection, FVector CurrentLocation);
 
 	UTankBarrel* Barrel = nullptr;
 	UTankTurret* Turret = nullptr;
