@@ -24,7 +24,7 @@ void UTankAimingComponent::Initialise(UTankBarrel* BarrelToSet, UTankTurret* Tur
 	if (!ensure(BarrelToSet || TurretToSet)) { return; }
 	Barrel = BarrelToSet;
 	Turret = TurretToSet;
-	LastFireTime = FPlatformTime::Seconds();
+	LastFireTime = FPlatformTime::Seconds() - ReloadTimeInSeconds;
 }
 
 void UTankAimingComponent::Aiming(FVector HitLocation)
