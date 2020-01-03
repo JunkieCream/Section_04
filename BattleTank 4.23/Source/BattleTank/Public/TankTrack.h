@@ -24,13 +24,16 @@ private:
 
 	virtual void BeginPlay() override;
 
-	virtual void TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
-
-
 	UFUNCTION()
 	void OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, FVector NormalImpulse, const FHitResult& Hit);
 
+	void ApplySidewayForce();
+
+	void DriveTrack();
+
 	// Max force per track in newtons
 	UPROPERTY(EditDefaultsOnly, Category = Setup)
-	float MaxDrivingForce = 700000.f; //Sensible Deafault
+	float MaxDrivingForce = 30000000.0f; //Sensible Default
+
+	float CurrentThrottle = 0;
 };
