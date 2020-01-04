@@ -27,6 +27,12 @@ void UTankAimingComponent::Initialise(UTankBarrel* BarrelToSet, UTankTurret* Tur
 	LastFireTime = FPlatformTime::Seconds() - ReloadTimeInSeconds;
 }
 
+
+EFiringState UTankAimingComponent::GetFiringState() const
+{
+	return FiringState;
+}
+
 void UTankAimingComponent::Aiming(FVector HitLocation)
 {
 	if (!ensure(Barrel)) {return;}
@@ -70,7 +76,7 @@ void UTankAimingComponent::Fire()
 {
 	if (!ensure(Barrel && ProjectileBlueprint)) { return; }
 
-	if (FiringState != EFiringState::Reloading)
+	if (FiringState != EFiringState::Reloading && FiringState != EFiringState::OutOfAmmo)
 	{
 		//Spawn projectile at the socket location of barrel
 		auto Projectile = GetWorld()->SpawnActor<AProjectile>(
@@ -81,13 +87,10 @@ void UTankAimingComponent::Fire()
 		Projectile->LaunchProjectile(LaunchSpeed);
 
 		LastFireTime = FPlatformTime::Seconds();
+		AmmoCount--;
 	}
 }
 
-EFiringState UTankAimingComponent::GetFiringState() const
-{
-	return FiringState;
-}
 
 void UTankAimingComponent::CheckFiringState(FVector AimDirection, FVector HitLocation)
 {
@@ -95,29 +98,32 @@ void UTankAimingComponent::CheckFiringState(FVector AimDirection, FVector HitLoc
 	float Scale = 1 / sqrt(SquareSum);
 	AimDirection = FVector(AimDirection.X * Scale, AimDirection.Y * Scale, AimDirection.Z * Scale);
 	
-	if (HitLocation != FVector(0, 0, 0))
+	if (AmmoCount <= 0)
 	{
-		if ((FPlatformTime::Seconds() - LastFireTime) > ReloadTimeInSeconds)
-		{
-			if (Barrel->GetForwardVector().Equals(AimDirection, 0.05))
-			{
-				FiringState = EFiringState::Aiming;
-			}
-			else
-			{
-				FiringState = EFiringState::Moving;
-			}
+		FiringState = EFiringState::OutOfAmmo;
+		return;
+	}
 
-		}
-		else
-		{
-			FiringState = EFiringState::Reloading;
-		}
+	if (HitLocation == FVector(0, 0, 0))
+	{
+		FiringState = EFiringState::Locked;
+		return;
+	}
+
+	if ((FPlatformTime::Seconds() - LastFireTime) < ReloadTimeInSeconds)
+	{
+		FiringState = EFiringState::Reloading;
+		return;
+	}
+
+	if (Barrel->GetForwardVector().Equals(AimDirection, 0.05))
+	{
+		FiringState = EFiringState::Aiming;
 	}
 	else
 	{
-		FiringState = EFiringState::Locked;
+		FiringState = EFiringState::Moving;
 	}
-	
+
 	return;
 }

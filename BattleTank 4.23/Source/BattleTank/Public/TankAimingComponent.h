@@ -19,7 +19,8 @@ enum class EFiringState :uint8
 	Reloading,
 	Aiming,
 	Locked,
-	Moving
+	Moving,
+	OutOfAmmo
 };
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
@@ -46,8 +47,11 @@ public:
 	EFiringState GetFiringState() const;
 
 protected:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Enum)	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Enum)
 	EFiringState FiringState = EFiringState::Reloading;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = Setup)
+	int32 AmmoCount = 3;
 
 private:
 
@@ -67,5 +71,4 @@ private:
 	float ReloadTimeInSeconds = 3;
 
 	double LastFireTime = 0;
-
 };
