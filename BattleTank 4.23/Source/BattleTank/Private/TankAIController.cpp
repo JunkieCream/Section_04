@@ -26,6 +26,9 @@ void ATankAIController::Tick(float DeltaTime)
 	if (PlayerTank)
 	{
 		TankAiming->Aiming(PlayerTank->GetActorLocation());
-		TankAiming->Fire();
+		if (TankAiming->GetFiringState() == EFiringState::Aiming)
+		{
+			TankAiming->Fire();
+		}
 	}
 }

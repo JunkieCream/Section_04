@@ -43,6 +43,8 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void Fire();
 
+	EFiringState GetFiringState() const;
+
 protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Enum)	
 	EFiringState FiringState = EFiringState::Reloading;

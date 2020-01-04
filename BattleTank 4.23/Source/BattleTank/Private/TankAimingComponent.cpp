@@ -84,6 +84,11 @@ void UTankAimingComponent::Fire()
 	}
 }
 
+EFiringState UTankAimingComponent::GetFiringState() const
+{
+	return FiringState;
+}
+
 void UTankAimingComponent::CheckFiringState(FVector AimDirection, FVector HitLocation)
 {
 	auto SquareSum = (AimDirection.X * AimDirection.X) + (AimDirection.Y * AimDirection.Y) + (AimDirection.Z * AimDirection.Z);
@@ -94,7 +99,7 @@ void UTankAimingComponent::CheckFiringState(FVector AimDirection, FVector HitLoc
 	{
 		if ((FPlatformTime::Seconds() - LastFireTime) > ReloadTimeInSeconds)
 		{
-			if (Barrel->GetForwardVector().Equals(AimDirection, 0.01))
+			if (Barrel->GetForwardVector().Equals(AimDirection, 0.05))
 			{
 				FiringState = EFiringState::Aiming;
 			}
