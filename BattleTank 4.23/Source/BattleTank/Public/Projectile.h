@@ -4,9 +4,11 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+
 #include "Projectile.generated.h"
 
 class UTankProjectileMoving;
+class UParticleSystemComponent;
 
 UCLASS()
 class BATTLETANK_API AProjectile : public AActor
@@ -28,5 +30,12 @@ protected:
 
 private:
 	UTankProjectileMoving* ProjectileMoving = nullptr;
+
+	UPROPERTY (VisibleAnywhere, Category = "Components")
+	UStaticMeshComponent* CollissionMesh = nullptr;
+
+	UPROPERTY (VisibleAnywhere, Category = "Components")
+	UParticleSystemComponent* LaunchBlast = nullptr;
+
 
 };

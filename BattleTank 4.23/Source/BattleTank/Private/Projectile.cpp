@@ -1,6 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "TankProjectileMoving.h"
+#include "Particles/ParticleSystemComponent.h"
 #include "Projectile.h"
 
 // Sets default values
@@ -8,6 +9,14 @@ AProjectile::AProjectile()
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
+
+	CollissionMesh = CreateDefaultSubobject<UStaticMeshComponent>(FName("Colission Mesh"));
+	SetRootComponent(CollissionMesh);
+	CollissionMesh->SetNotifyRigidBodyCollision(true);
+	CollissionMesh->SetVisibility(true);
+
+	LaunchBlast = CreateDefaultSubobject<UParticleSystemComponent>(FName("Launch Blast"));
+	LaunchBlast->AttachTo(RootComponent);
 
 	ProjectileMoving = CreateDefaultSubobject<UTankProjectileMoving>(FName("Projectile Moving"));
 	ProjectileMoving->bAutoActivate = false;
