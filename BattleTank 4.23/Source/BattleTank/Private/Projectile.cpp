@@ -8,15 +8,19 @@
 AProjectile::AProjectile()
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
-	PrimaryActorTick.bCanEverTick = true;
+	PrimaryActorTick.bCanEverTick = false;
 
-	CollissionMesh = CreateDefaultSubobject<UStaticMeshComponent>(FName("Colission Mesh"));
-	SetRootComponent(CollissionMesh);
-	CollissionMesh->SetNotifyRigidBodyCollision(true);
-	CollissionMesh->SetVisibility(true);
+	ProjectileCollissionMesh = CreateDefaultSubobject<UStaticMeshComponent>(FName("Colission Mesh"));
+	SetRootComponent(ProjectileCollissionMesh);
+	ProjectileCollissionMesh->SetNotifyRigidBodyCollision(true);
+	ProjectileCollissionMesh->SetVisibility(true);
 
 	LaunchBlast = CreateDefaultSubobject<UParticleSystemComponent>(FName("Launch Blast"));
-	LaunchBlast->AttachTo(RootComponent);
+	LaunchBlast->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform); 
+
+	ImpactBlast = CreateDefaultSubobject<UParticleSystemComponent>(FName("Impact Blast"));
+	ImpactBlast->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);
+	ImpactBlast->bAutoActivate = false;
 
 	ProjectileMoving = CreateDefaultSubobject<UTankProjectileMoving>(FName("Projectile Moving"));
 	ProjectileMoving->bAutoActivate = false;
@@ -26,6 +30,7 @@ AProjectile::AProjectile()
 void AProjectile::BeginPlay()
 {
 	Super::BeginPlay();
+	ProjectileCollissionMesh->OnComponentHit.AddDynamic(this, &AProjectile::OnHit);
 }
 
 // Called every frame
@@ -36,7 +41,15 @@ void AProjectile::Tick(float DeltaTime)
 
 void AProjectile::LaunchProjectile(float LaunchSpeed)
 {
-	UE_LOG(LogTemp, Warning, TEXT("Projectile fired"));
 	ProjectileMoving->SetVelocityInLocalSpace(FVector::ForwardVector* LaunchSpeed);
 	ProjectileMoving->Activate();
+}
+
+void AProjectile::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, FVector NormalImpulse, const FHitResult& Hit)
+{
+	UE_LOG(LogTemp, Warning, TEXT("Projectile hit"));
+	LaunchBlast->Deactivate();
+	ImpactBlast->Activate();
+	ProjectileCollissionMesh->SetVisibility(false);
+	ProjectileCollissionMesh->SetCollisionProfileName("NoCollision");
 }

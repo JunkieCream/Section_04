@@ -29,13 +29,17 @@ protected:
 	virtual void BeginPlay() override;
 
 private:
+	UFUNCTION()
+	void OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, FVector NormalImpulse, const FHitResult& Hit);
+
 	UTankProjectileMoving* ProjectileMoving = nullptr;
 
 	UPROPERTY (VisibleAnywhere, Category = "Components")
-	UStaticMeshComponent* CollissionMesh = nullptr;
+	UStaticMeshComponent* ProjectileCollissionMesh = nullptr;
 
 	UPROPERTY (VisibleAnywhere, Category = "Components")
 	UParticleSystemComponent* LaunchBlast = nullptr;
 
-
+	UPROPERTY(VisibleAnywhere, Category = "Components")
+	UParticleSystemComponent* ImpactBlast = nullptr;
 };
