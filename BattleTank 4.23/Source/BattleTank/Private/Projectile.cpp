@@ -2,6 +2,7 @@
 
 #include "TankProjectileMoving.h"
 #include "Particles/ParticleSystemComponent.h"
+#include "PhysicsEngine/RadialForceComponent.h"
 #include "Projectile.h"
 
 // Sets default values
@@ -22,8 +23,12 @@ AProjectile::AProjectile()
 	ImpactBlast->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);
 	ImpactBlast->bAutoActivate = false;
 
+	ExplosionForce = CreateDefaultSubobject<URadialForceComponent>(FName("Explosion Force"));
+	ExplosionForce->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);
+
 	ProjectileMoving = CreateDefaultSubobject<UTankProjectileMoving>(FName("Projectile Moving"));
 	ProjectileMoving->bAutoActivate = false;
+
 }
 
 // Called when the game starts or when spawned
@@ -50,6 +55,7 @@ void AProjectile::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, U
 	UE_LOG(LogTemp, Warning, TEXT("Projectile hit"));
 	LaunchBlast->Deactivate();
 	ImpactBlast->Activate();
-	ProjectileCollissionMesh->SetVisibility(false);
-	ProjectileCollissionMesh->SetCollisionProfileName("NoCollision");
+	ExplosionForce->FireImpulse();
+	//ProjectileCollissionMesh->SetVisibility(false);
+	//ProjectileCollissionMesh->SetCollisionProfileName("NoCollision");
 }
