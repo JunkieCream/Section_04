@@ -52,10 +52,18 @@ void AProjectile::LaunchProjectile(float LaunchSpeed)
 
 void AProjectile::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, FVector NormalImpulse, const FHitResult& Hit)
 {
-	UE_LOG(LogTemp, Warning, TEXT("Projectile hit"));
 	LaunchBlast->Deactivate();
 	ImpactBlast->Activate();
 	ExplosionForce->FireImpulse();
-	//ProjectileCollissionMesh->SetVisibility(false);
-	//ProjectileCollissionMesh->SetCollisionProfileName("NoCollision");
+
+	ProjectileCollissionMesh->SetVisibility(false);
+	ProjectileCollissionMesh->SetCollisionProfileName("NoCollision");
+
+	FTimerHandle Timer;
+	GetWorld()->GetTimerManager().SetTimer(Timer, this, &AProjectile::DestroyOnTimer, DestroyDelay);
+}
+
+void AProjectile::DestroyOnTimer()
+{
+	Destroy();
 }

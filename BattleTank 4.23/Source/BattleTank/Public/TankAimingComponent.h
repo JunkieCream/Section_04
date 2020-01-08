@@ -51,7 +51,7 @@ protected:
 	EFiringState FiringState = EFiringState::Reloading;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = Setup)
-	int32 AmmoCount = 3;
+	int32 AmmoCount = 20;
 
 private:
 
