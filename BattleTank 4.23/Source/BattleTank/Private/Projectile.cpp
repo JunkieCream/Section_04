@@ -3,6 +3,7 @@
 #include "TankProjectileMoving.h"
 #include "Particles/ParticleSystemComponent.h"
 #include "PhysicsEngine/RadialForceComponent.h"
+#include "Kismet/GameplayStatics.h"
 #include "Projectile.h"
 
 // Sets default values
@@ -54,7 +55,11 @@ void AProjectile::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, U
 {
 	LaunchBlast->Deactivate();
 	ImpactBlast->Activate();
+
 	ExplosionForce->FireImpulse();
+	UGameplayStatics::ApplyRadialDamage(
+		this, DamageAmount, GetActorLocation(), ExplosionForce->Radius, UDamageType::StaticClass(), TArray<AActor*>()
+		);
 
 	ProjectileCollissionMesh->SetVisibility(false);
 	ProjectileCollissionMesh->SetCollisionProfileName("NoCollision");
