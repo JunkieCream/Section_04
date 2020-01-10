@@ -3,6 +3,7 @@
 
 #include "TankAIController.h"
 #include "..\Public\TankAIController.h"
+#include "Tank.h"
 #include "TankAimingComponent.h"
 
 
@@ -11,6 +12,16 @@ void ATankAIController::BeginPlay()
 	Super::BeginPlay();
 	TankAiming = GetPawn()->FindComponentByClass<UTankAimingComponent>();
 	if (!ensure(TankAiming)){ UE_LOG(LogTemp, Warning, TEXT("No tank aiming component"));}
+}
+
+void ATankAIController::SetPawn(APawn* InPawn)
+{
+	Super::SetPawn(InPawn);
+	auto ControlledTank = Cast<ATank>(GetPawn());
+	if (!ensure(ControlledTank)) { return; }
+
+	// Subscribe our local method to the tank's death event
+	ControlledTank->OnDeath.AddUniqueDynamic(this, &ATankAIController::OnPossedTankDeath);
 }
 
 void ATankAIController::Tick(float DeltaTime)
@@ -31,4 +42,10 @@ void ATankAIController::Tick(float DeltaTime)
 			TankAiming->Fire();
 		}
 	}
+}
+
+void ATankAIController::OnPossedTankDeath()
+{
+	//auto TankName = GetOwner()->GetName();
+	UE_LOG(LogTemp, Warning, TEXT("My Tank is dead"));
 }
