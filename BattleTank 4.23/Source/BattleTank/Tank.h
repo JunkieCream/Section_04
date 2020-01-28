@@ -29,9 +29,12 @@ private:
 	// Sets default values for this pawn's properties
 	ATank();
 
+	// Called when the game starts or when spawned
+	virtual void BeginPlay() override;
+
 	UPROPERTY(EditDefaultsOnly, Category = "Setup")
 	int32 MaxHealth = 100.f;
 
 	UPROPERTY(VisibleAnywhere, Category = "Setup")
-	int32 CurrentHealth = MaxHealth;
+	int32 CurrentHealth;
 };

@@ -48,4 +48,8 @@ void ATankAIController::OnPossedTankDeath()
 {
 	//auto TankName = GetOwner()->GetName();
 	UE_LOG(LogTemp, Warning, TEXT("My Tank is dead"));
+	if (!GetPawn()) {
+		UE_LOG(LogTemp, Warning, TEXT("No tank to die"))
+		return; }
+	GetPawn()->DetachFromControllerPendingDestroy();
 }

@@ -1,6 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "TankPlayerController.h"
+#include "Tank.h"
 #include "TankAimingComponent.h"
 
 void ATankPlayerController::BeginPlay()
@@ -9,6 +10,16 @@ void ATankPlayerController::BeginPlay()
 	TankAiming = GetPawn()->FindComponentByClass<UTankAimingComponent>();
 
 	if (ensure(TankAiming)){ FoundAimingComponent(TankAiming);}
+}
+
+void ATankPlayerController::SetPawn(APawn* InPawn)
+{
+	Super::SetPawn(InPawn);
+	auto ControlledTank = Cast<ATank>(GetPawn());
+	if (!ensure(ControlledTank)) { return; }
+
+	// Subscribe our local method to the tank's death event
+	ControlledTank->OnDeath.AddUniqueDynamic(this, &ATankPlayerController::OnPossedTankDeath);
 }
 
 void ATankPlayerController::Tick(float DeltaTime)
@@ -73,4 +84,9 @@ bool ATankPlayerController::GetLookVectorHitLocation(FVector &out_HitLocation, F
 	return false;
 }
 
-
+void ATankPlayerController::OnPossedTankDeath()
+{
+	//auto TankName = GetOwner()->GetName();
+	UE_LOG(LogTemp, Warning, TEXT("My Tank is dead"));
+	StartSpectatingOnly();
+}

@@ -25,7 +25,9 @@ private:
 	virtual void Tick(float DeltaTime) override;
 
 	// Called when the game starts or when spawned
-	void BeginPlay() override;
+	virtual void BeginPlay() override;
+
+	virtual void SetPawn(APawn* InPawn) override;
 
 	// Aim barrel of tank to crosshair
 	void AimTowardCrosshair();
@@ -33,6 +35,8 @@ private:
 	bool GetLookVectorHitLocation(FVector& out_HitLocation, FVector PlayerCameraLocation, FVector PlayerTargetDirection);
 
 	bool GetLookDirection(FVector& out_PlayerCameraLocation, FVector& PlayerTargetDirection);
+
+	void OnPossedTankDeath();
 
 	UPROPERTY(EditAnywhere)
 	float CrosshairXLocation = 0.5;
