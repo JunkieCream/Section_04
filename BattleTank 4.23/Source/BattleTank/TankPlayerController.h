@@ -36,6 +36,7 @@ private:
 
 	bool GetLookDirection(FVector& out_PlayerCameraLocation, FVector& PlayerTargetDirection);
 
+	UFUNCTION()
 	void OnPossedTankDeath();
 
 	UPROPERTY(EditAnywhere)
