@@ -79,7 +79,7 @@ bool ATankPlayerController::GetLookVectorHitLocation(FVector &out_HitLocation, F
 	out_HitLocation = PlayerCameraLocation + PlayerTargetDirection * LineTraceRange;
 
 	//Check if line hit anything
-	if (GetWorld()->LineTraceSingleByChannel(OutHit, PlayerCameraLocation, out_HitLocation, ECC_Visibility))
+	if (GetWorld()->LineTraceSingleByChannel(OutHit, PlayerCameraLocation, out_HitLocation, ECC_Camera))
 	{
 		if (OutHit.bBlockingHit)
 		{
