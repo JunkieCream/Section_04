@@ -26,6 +26,8 @@ protected:
 
 private:
 
+	void SetupConstraint();
+
 	UPROPERTY(VisibleAnywhere, Category = "Components")
 	UStaticMeshComponent* Wheel = nullptr;
 
