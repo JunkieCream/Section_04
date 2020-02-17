@@ -1,7 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #pragma once
-
+#include "Components/SphereComponent.h" 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "SprungWheel.generated.h"
@@ -28,10 +28,17 @@ private:
 
 	void SetupConstraint();
 
-	UPROPERTY(VisibleAnywhere, Category = "Components")
-	UStaticMeshComponent* Wheel = nullptr;
-
+	// Components
 	UPROPERTY(VisibleAnywhere, Category = "Components")
 	UPhysicsConstraintComponent* Spring = nullptr;
+
+	UPROPERTY(VisibleAnywhere, Category = "Components")
+	USphereComponent* Wheel = nullptr;
+
+	UPROPERTY(VisibleAnywhere, Category = "Components")
+	USphereComponent* Axle = nullptr;
+
+	UPROPERTY(VisibleAnywhere, Category = "Components")
+	UPhysicsConstraintComponent* AxleWheelConstraint = nullptr;
 
 };
